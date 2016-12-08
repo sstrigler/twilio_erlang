@@ -8,7 +8,7 @@
   {env, []},
   {applications, [
     mochiweb,
-    inets,
+    hackney,
     crypto,
     stdlib,
     kernel]},

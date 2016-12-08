@@ -46,28 +46,28 @@ send_sms(AccountSID, AuthToken, From, To, Body) ->
 %% @doc Makes a Twilio API request.
 -spec request(string(), string(), atom(), string(), [{string(), string()}]) -> twilio_response().
 request(AccountSID, AuthToken, get, Path, []) ->
-    RequestURL = "https://" ++ AccountSID ++ ":" ++ AuthToken
+    URL = "https://" ++ AccountSID ++ ":" ++ AuthToken
                  ++ "@"?BASE_URL"/"?API_VERSION_2010 ++ Path,
-    Request = {RequestURL, [{"Accept", "application/json"}]},
-    case httpc:request(get, Request, [], []) of
-        {ok, {{_, 200, _}, _, R}} ->
-            {ok, R};
-        {ok, {{_, N, _}, _, _}} ->
+    Headers = [{"Accept", "application/json"}],
+    case hackney:request(get, URL, Headers, <<>>, []) of
+        {ok, 200, _, ClientRef} ->
+            hackney:body(ClientRef);
+        {ok, N, _, _} ->
             {error, "Error: " ++ integer_to_list(N)};
         {error, _} = Error ->
             {error, Error}
     end;
 request(AccountSID, AuthToken, post, Path, Params) ->
-    RequestURL = "https://" ++ AccountSID ++ ":" ++ AuthToken
+    URL = "https://" ++ AccountSID ++ ":" ++ AuthToken
                  ++ "@"?BASE_URL"/"?API_VERSION_2010 ++ Path,
-    
-    ParamsString = expand_params(Params),
-    Request = {RequestURL, [], "application/x-www-form-urlencoded", ParamsString},
+
+    Payload = expand_params(Params),
     % @TODO properly parse for twilio errors
-    case httpc:request(post, Request, [], []) of
-        {ok, {{_, 201, _}, _, _}} ->
+    Headers = [{<<"Content-Type">>, <<"application/x-www-form-urlencoded">>}],
+    case hackney:request(post, URL, Headers, Payload, []) of
+        {ok, 201, _RespHeaders, _Client} ->
             {ok, ok};
-        {ok, {{_, N, _}, _, _}} ->
+        {ok, N, _, _Client} ->
             {error, "Error: " ++ integer_to_list(N)};
         {error, _} = Error ->
             {error, Error}
@@ -90,4 +90,3 @@ expand_params_test() ->
         expand_params([{"From", "1234"}, {"To", "2341"}, {"SomeName", "Ryan"}])).
 
 -endif.
-
