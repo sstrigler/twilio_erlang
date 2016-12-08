@@ -20,7 +20,7 @@
         ]).
 
 random() ->
-    N = random:uniform(15),
+    N = rand:uniform(15),
     recipe(N).
 
 recipe(N) ->
