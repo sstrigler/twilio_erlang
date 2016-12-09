@@ -1,81 +1,81 @@
 -record(say, {
-          voice     :: string(),
-          language  :: string(),
-          loop      :: integer(),
+          voice     :: string() | undefined,
+          language  :: string() | undefined,
+          loop      :: integer() | undefined,
           text = "" :: string()
          }).
 
 -record(play, {
-          loop     :: integer(),
+          loop     :: integer() | undefined,
           url = "" :: string()
          }).
 
 % gather has been EXTtended with 2 extra fields
 -record(gather, {
-          action         :: string(),
-          method         :: atom(),
-          timeout        :: integer(),
-          finishOnKey    :: string(),
-          numDigits      :: integer(),
-          body = []      :: [tuple()],
-          autoMenu_EXT   :: boolean(),
-          after_EXT = [] :: [tuple()]
+          action         :: string() | undefined,
+          method         :: atom() | undefined,
+          timeout        :: integer() | undefined,
+          finishOnKey    :: string() | undefined,
+          numDigits      :: integer() | undefined,
+          body = []      :: [tuple()] | undefined,
+          autoMenu_EXT   :: boolean() | undefined,
+          after_EXT = [] :: [tuple()] | undefined
          }).
 
 -record(record, {
-          action             :: string(),
-          method             :: atom(),
-          timeout            :: integer(),
-          finishOnKey        :: string(),
-          maxLength          :: integer(),
-          transcribe         :: boolean(),
-          transcribeCallback :: string(),
-          playBeep           :: boolean()
+          action             :: string() | undefined,
+          method             :: atom() | undefined,
+          timeout            :: integer() | undefined,
+          finishOnKey        :: string() | undefined,
+          maxLength          :: integer() | undefined,
+          transcribe         :: boolean() | undefined,
+          transcribeCallback :: string() | undefined,
+          playBeep           :: boolean() | undefined
          }).
 
 -record(number, {
-          sendDigits  :: string(),
-          url         :: string(),
+          sendDigits  :: string() | undefined,
+          url         :: string() | undefined,
           number = "" :: string()
          }).
 
 -record(dial, {
-          action       :: string(),
-          method       :: atom(),
-          timeout      :: integer(),
-          hangupOnStar :: boolean(),
-          timeLimit    :: integer(),
-          callerId     :: string(),
-          record       :: boolean(),
+          action       :: string() | undefined,
+          method       :: atom() | undefined,
+          timeout      :: integer() | undefined,
+          hangupOnStar :: boolean() | undefined,
+          timeLimit    :: integer() | undefined,
+          callerId     :: string() | undefined,
+          record       :: boolean() | undefined,
           body = ""    :: string() | #number{}
          }).
 
 -record(sms, {
-          to             :: string(),
-          from           :: string(),
-          action         :: string(),
-          method         :: atom(),
-          statusCallback :: string(),
+          to             :: string() | undefined,
+          from           :: string() | undefined,
+          action         :: string() | undefined,
+          method         :: atom() | undefined,
+          statusCallback :: string() | undefined,
           text = ""      :: string()
          }).
 
 -record(message, {
-          to             :: string(),
-          from           :: string(),
-          action         :: string(),
-          method         :: atom(),
-          statusCallback :: string(),
+          to             :: string() | undefined,
+          from           :: string() | undefined,
+          action         :: string() | undefined,
+          method         :: atom() | undefined,
+          statusCallback :: string() | undefined,
           text = ""      :: string()
          }).
 
 % redirect record is not required or supported in Extended TwiML
 -record(redirect, {
-          method   :: atom(),
+          method   :: atom() | undefined,
           url = "" :: string()
          }).
 
 -record(pause, {
-          length :: integer()
+          length :: integer() | string()
          }).
 
 -record(hangup, {}). % has no fields
